@@ -42,7 +42,7 @@ configuration:
         textHighlight: "#b3aa0288"
 plugins:
   - source: "@quartz-community/created-modified-date"
-    enabled: true
+    enabled: false
     options:
       defaultDateType: modified
       priority:
@@ -200,11 +200,10 @@ plugins:
       position: afterBody
       priority: 10
   - source: "@quartz-community/footer"
-    enabled: true
+    enabled: false
     options:
       links:
-        GitHub: https://github.com/jackyzha0/quartz
-        Discord Community: https://discord.gg/cRFFHYye7t
+        GitHub: https://github.com/Astin-A
     layout:
       position: footer
       priority: 50

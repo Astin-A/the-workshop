@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
-  pageTitle: Quartz 5
-  pageTitleSuffix: ""
+  pageTitle: The Workshop
+  pageTitleSuffix: " | Astin"
   enableSPA: true
   enablePopovers: true
   analytics:
@@ -50,33 +50,6 @@ plugins:
         - git
         - filesystem
     order: 10
-  - source: "@quartz-community/syntax-highlighting"
-    enabled: true
-    options:
-      theme:
-        light: github-light
-        dark: github-dark
-      keepBackground: false
-    order: 20
-  - source: "@quartz-community/obsidian-flavored-markdown"
-    enabled: true
-    options:
-      comments: true
-      highlight: true
-      wikilinks: true
-      callouts: true
-      mermaid: true
-      parseTags: true
-      parseArrows: true
-      parseBlockReferences: true
-      enableInHtmlEmbed: false
-      enableYouTubeEmbed: true
-      enableVideoEmbed: true
-      enableCheckbox: true
-    order: 30
-  - source: "@quartz-community/github-flavored-markdown"
-    enabled: true
-    order: 40
   - source: "@quartz-community/table-of-contents"
     enabled: true
     order: 50
@@ -100,7 +73,7 @@ plugins:
     enabled: false
     order: 85
   - source: "@quartz-community/hard-line-breaks"
-    enabled: true
+    enabled: false
     order: 90
   - source: "@quartz-community/ox-hugo"
     enabled: false
@@ -111,9 +84,9 @@ plugins:
   - source: "@quartz-community/quartz-fonts"
     enabled: true
   - source: "@quartz-themes/core"
-    enabled: false
+    enabled: true
     options:
-      theme: default
+      theme: azure 
       mode: both
   - source: "@quartz-community/remove-draft"
     enabled: true
@@ -163,7 +136,7 @@ plugins:
       position: left
       priority: 50
   - source: "@quartz-community/graph"
-    enabled: true
+    enabled: false
     layout:
       position: right
       priority: 10
@@ -266,13 +239,16 @@ plugins:
       position: beforeBody
       priority: 15
       display: all
-  - source: "@quartz-community/obsidian-plugin-excalidraw"
+  - source: github:quartz-community/syntax-highlighting
     enabled: true
     options:
-      enableInteraction: true
-      darkMode: auto
-      exportPadding: 20
-    order: 50
+      theme:
+        light: github-light
+        dark: github-dark
+      keepBackground: false
+      clipboard: true
+      tokenClassification: true
+    order: 20
   - source: github:quartz-community/obsidian-flavored-markdown
     enabled: true
     options:
@@ -290,110 +266,6 @@ plugins:
       enableCheckbox: false
       enableObsidianUri: true
     order: 30
-  - source: github:quartz-community/explorer
-    enabled: true
-    options:
-      folderDefaultState: collapsed
-      folderClickBehavior: link
-      useSavedState: true
-    order: 50
-    layout:
-      position: left
-      priority: 50
-  - source: github:quartz-community/search
-    enabled: true
-    options:
-      enablePreview: true
-      fieldPriority:
-        - title
-        - content
-        - tags
-    order: 50
-    layout:
-      position: left
-      priority: 20
-  - source: github:quartz-community/graph
-    enabled: true
-    options:
-      localGraph:
-        drag: true
-        zoom: true
-        depth: 1
-        scale: 1.1
-        repelForce: 0.5
-        centerForce: 0.3
-        linkDistance: 30
-        fontSize: 0.6
-        opacityScale: 1
-        showTags: true
-        removeTags: []
-        focusOnHover: false
-        enableRadial: false
-      globalGraph:
-        drag: true
-        zoom: true
-        depth: -1
-        scale: 0.9
-        repelForce: 0.5
-        centerForce: 0.2
-        linkDistance: 30
-        fontSize: 0.6
-        opacityScale: 1
-        showTags: true
-        removeTags: []
-        focusOnHover: true
-        enableRadial: true
-    order: 50
-    layout:
-      position: right
-      priority: 10
-  - source: github:quartz-community/backlinks
-    enabled: true
-    options:
-      hideWhenEmpty: true
-    order: 50
-    layout:
-      position: right
-      priority: 30
-  - source: github:quartz-community/syntax-highlighting
-    enabled: true
-    options:
-      theme:
-        light: github-light
-        dark: github-dark
-      keepBackground: false
-      clipboard: true
-      tokenClassification: true
-    order: 20
-  - source: github:quartz-community/latex
-    enabled: true
-    options:
-      renderEngine: katex
-    order: 80
-  - source: github:quartz-community/table-of-contents
-    enabled: true
-    options:
-      maxDepth: 3
-      minEntries: 1
-      showByDefault: true
-      collapseByDefault: false
-      layout: modern
-    order: 50
-    layout:
-      position: right
-      priority: 50
-  - source: github:quartz-community/unlisted-pages
-    enabled: true
-    options: {}
-    order: 45
-  - source: github:quartz-community/encrypted-pages
-    enabled: true
-    options:
-      iterations: 600000
-      passwordField: password
-      unlistWhenEncrypted: false
-      outputPath: static/encryptedContentIndex.json
-    order: 900
 layout:
   groups:
     toolbar:

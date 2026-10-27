@@ -1,3 +1,4 @@
+# 1 Architectural Decoupling & Usability Overhaul.md
 
 ### Part 1: The Anatomy of the Problem (Why Atom is Not Standalone)
 
@@ -7,6 +8,7 @@ Atom is not a library; it is a subsystem. It operates entirely at the mercy of t
 Look at `examples/Triangle/source/main.cpp`. To draw a single triangle, you must instantiate `AzGameFramework::GameApplication`, which triggers the entire `AzCore` reflection, memory allocation, and settings registry bootstrap. You cannot simply link a `.lib` and start drawing. 
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryTextColor': '#000000', 'textColor': '#000000', 'lineColor': '#333333' }}}%%
 graph TD
     A[Triangle main.cpp] --> B[AzGameFramework::GameApplication]
     B --> C[AzCore ComponentApplication]
@@ -65,6 +67,7 @@ int main() {
 ```
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryTextColor': '#000000', 'textColor': '#000000', 'lineColor': '#333333' }}}%%
 graph LR
     A[User App] --> B[Atom::Renderer]
     B --> C[Atom::Scene]
@@ -205,6 +208,7 @@ while (renderer.IsRunning()) {
 We cannot do this all at once. We need a phased approach. The diagram below outlines the logical sequence of architectural changes required to achieve the Hybrid Decoupling (Strategy B), moving from the outer shell to the core systems.
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryTextColor': '#000000', 'textColor': '#000000', 'lineColor': '#333333' }}}%%
 graph LR
     A[Phase 1: Skeleton] --> B[Phase 2: Window & RHI]
     B --> C[Phase 3: Feature Processors]

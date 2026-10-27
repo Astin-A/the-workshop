@@ -1,4 +1,4 @@
-
+# 2 The Render Graph & Scripting Architecture.md
 
 ### Architectural Critique: Why Current Approaches Fail
 
@@ -197,7 +197,7 @@ graph LR
     D --> E[Barrier Generation]
     E --> F[Compiled Render Graph]
 
-    style A fill:#f9f,stroke:#333,stroke-width:2px,color:#000
+    style A fill:#9cf,stroke:#333,stroke-width:2px,color:#000
     style B fill:#9cf,stroke:#333,stroke-width:2px,color:#000
     style C fill:#9cf,stroke:#333,stroke-width:2px,color:#000
     style D fill:#9cf,stroke:#333,stroke-width:2px,color:#000
