@@ -1,0 +1,65 @@
+{
+  "version": "1.0.0",
+  "plugins": {
+    "backlinks": {
+      "source": "github:quartz-community/backlinks",
+      "resolved": "https://github.com/quartz-community/backlinks.git",
+      "commit": "c90118ea728c9bef84b64df92857789bdb4bbc13",
+      "installedAt": "2026-10-27T17:41:11.425Z"
+    },
+    "encrypted-pages": {
+      "source": "github:quartz-community/encrypted-pages",
+      "resolved": "https://github.com/quartz-community/encrypted-pages.git",
+      "commit": "9c1f586faa7ce464ea8048e0948b890ee18e0971",
+      "installedAt": "2026-10-27T17:47:29.941Z"
+    },
+    "explorer": {
+      "source": "github:quartz-community/explorer",
+      "resolved": "https://github.com/quartz-community/explorer.git",
+      "commit": "bf8e93766283caab163fc11bc8b5904790a769bc",
+      "installedAt": "2026-10-27T17:39:49.147Z"
+    },
+    "graph": {
+      "source": "github:quartz-community/graph",
+      "resolved": "https://github.com/quartz-community/graph.git",
+      "commit": "e647019c05ab2a3279c9cddd7bc2f18acb9858b8",
+      "installedAt": "2026-10-27T17:40:19.112Z"
+    },
+    "latex": {
+      "source": "github:quartz-community/latex",
+      "resolved": "https://github.com/quartz-community/latex.git",
+      "commit": "5b9b86415be06395a855d01e8899d625e5131d5b",
+      "installedAt": "2026-10-27T17:44:49.692Z"
+    },
+    "obsidian-flavored-markdown": {
+      "source": "github:quartz-community/obsidian-flavored-markdown",
+      "resolved": "https://github.com/quartz-community/obsidian-flavored-markdown.git",
+      "commit": "1ae94b7961332d383bd68a92b1178be54f1422a7",
+      "installedAt": "2026-10-27T17:36:23.616Z"
+    },
+    "search": {
+      "source": "github:quartz-community/search",
+      "resolved": "https://github.com/quartz-community/search.git",
+      "commit": "f425045ac21f74210f858b10c8ab3a40f70b76eb",
+      "installedAt": "2026-10-27T17:40:03.753Z"
+    },
+    "syntax-highlighting": {
+      "source": "github:quartz-community/syntax-highlighting",
+      "resolved": "https://github.com/quartz-community/syntax-highlighting.git",
+      "commit": "4070d683dba7c9d2b3f32851fea082d20f673a1f",
+      "installedAt": "2026-10-27T17:41:59.101Z"
+    },
+    "table-of-contents": {
+      "source": "github:quartz-community/table-of-contents",
+      "resolved": "https://github.com/quartz-community/table-of-contents.git",
+      "commit": "88526540fc899656ade476a11985359fd812bc8a",
+      "installedAt": "2026-10-27T17:45:55.920Z"
+    },
+    "unlisted-pages": {
+      "source": "github:quartz-community/unlisted-pages",
+      "resolved": "https://github.com/quartz-community/unlisted-pages.git",
+      "commit": "e7bd3729703bd247fb578e88656cddd9df166452",
+      "installedAt": "2026-10-27T17:46:43.716Z"
+    }
+  }
+}
