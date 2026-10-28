@@ -48,6 +48,7 @@ graph TD
 - [[01.02 Prerequisites]]
 - [[01.03 Tech Stack Overview]]
 - [[01.04 Minimal Working Example]]
+- [[01.05 Platform Agnosticism]]
 
 ### 02. Architecture
 - [[02.01 High-Level Architecture]]
