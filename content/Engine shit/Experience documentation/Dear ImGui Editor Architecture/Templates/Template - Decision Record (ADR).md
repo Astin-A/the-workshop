@@ -2,7 +2,6 @@
 title: "ADR - {{title}}"
 tags: [adr, architecture]
 status: accepted
-date: {{date}}
 ---
 
 # ADR - {{title}}

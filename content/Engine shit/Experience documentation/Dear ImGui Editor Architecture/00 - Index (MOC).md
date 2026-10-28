@@ -15,15 +15,13 @@ tags: [moc, index]
 
 ### Metadata
 
-| Field | Value |
-| :--- | :--- |
-| **Author** | Astin |
-| **Publisher** | Chogan Studios |
-| **Application** | Red Editor |
-| **Engine** | Red Reality Engine (RR) |
-| **Tech Stack** | C++20 · Dear ImGui 1.93.0 (docking) · Vulkan · GLFW · Win32 API |
-| **Platform** | Windows 10 / 11 |
-| **License** | Chogan Studios Internal Technical Documentation |
+- **Author:** Astin
+- **Publisher:** Chogan Studios
+- **Application:** Red Editor
+- **Engine:** Red Reality Engine (RR)
+- **Tech Stack:** C++20 · Dear ImGui 1.93.0 (docking) · Vulkan · GLFW · Win32 API
+- **Platform:** Windows 10 / 11
+- **License:** Chogan Studios Internal Technical Documentation
 
 ---
 
@@ -159,5 +157,4 @@ graph TD
 - [[15.02 Code Snippets]]
 - [[15.03 Further Reading]]
 - [[15.04 Migration Notes (ImGui 1.93)]]
-
 
