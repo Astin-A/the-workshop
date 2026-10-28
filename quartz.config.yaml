@@ -42,7 +42,7 @@ configuration:
         textHighlight: "#b3aa0288"
 plugins:
   - source: "@quartz-community/created-modified-date"
-    enabled: true
+    enabled: false
     options:
       defaultDateType: modified
       priority:
