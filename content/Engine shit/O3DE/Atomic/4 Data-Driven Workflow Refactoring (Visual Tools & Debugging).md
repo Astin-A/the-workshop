@@ -16,13 +16,16 @@ graph TD
     F --> G[Guess the broken Barrier or Binding]
     G --> B
 
-    style A fill:#f9f,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style C fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style D fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style E fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style F fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style G fill:#9cf,stroke:#333,stroke-width:2px,color:#000
+    classDef neutral fill:#30303a,stroke:#9a9aa5,stroke-width:2px,color:#f5f5fa;
+    classDef warning fill:#3e2e1e,stroke:#f7c87a,stroke-width:2px,color:#f5f5fa;
+    classDef danger fill:#3e2028,stroke:#f77a8a,stroke-width:2px,color:#f5f5fa;
+    classDef info fill:#1e3244,stroke:#7ac7f7,stroke-width:2px,color:#f5f5fa;
+
+    class A neutral;
+    class B,C warning;
+    class D,E danger;
+    class F info;
+    class G warning;
 ```
 
 ### The Solution: Visual Pass Editor, Runtime Frame Debugger, and Live Shader Debugging
@@ -48,13 +51,19 @@ graph LR
     D -->|Invalid| F[Red Wire / Tooltip Error]
     E --> G[Updated Pass JSON Asset]
 
-    style A fill:#f9f,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style C fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style D fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style E fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style F fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style G fill:#9cf,stroke:#333,stroke-width:2px,color:#000
+    classDef warning fill:#3e2e1e,stroke:#f7c87a,stroke-width:2px,color:#f5f5fa;
+    classDef default fill:#303040,stroke:#7aa2f7,stroke-width:2px,color:#f5f5fa;
+    classDef highlight fill:#341660,stroke:#d8b4fe,stroke-width:2px,color:#f5f5fa;
+    classDef success fill:#1e3f2e,stroke:#7af7a2,stroke-width:2px,color:#f5f5fa;
+    classDef danger fill:#3e2028,stroke:#f77a8a,stroke-width:2px,color:#f5f5fa;
+
+    class A warning;
+    class B default;
+    class C highlight;
+    class D default;
+    class E success;
+    class F danger;
+    class G success;
 ```
 
 **The Editor Data Structures (C++):**
@@ -117,16 +126,17 @@ graph TD
     F --> I[Verify Texture Output]
     G --> J[Verify Shader Bindings]
 
-    style A fill:#f9f,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style C fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style D fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style E fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style F fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style G fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style H fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style I fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style J fill:#f96,stroke:#333,stroke-width:2px,color:#000
+    classDef default fill:#303040,stroke:#7aa2f7,stroke-width:2px,color:#f5f5fa;
+    classDef info fill:#1e3244,stroke:#7ac7f7,stroke-width:2px,color:#f5f5fa;
+    classDef highlight fill:#341660,stroke:#d8b4fe,stroke-width:2px,color:#f5f5fa;
+    classDef warning fill:#3e2e1e,stroke:#f7c87a,stroke-width:2px,color:#f5f5fa;
+    classDef success fill:#1e3f2e,stroke:#7af7a2,stroke-width:2px,color:#f5f5fa;
+
+    class A default;
+    class B,C info;
+    class D highlight;
+    class E,F,G info;
+    class H,I,J warning;
 ```
 
 **Implementation Strategy:**
@@ -178,14 +188,19 @@ graph LR
     F --> G[Rebuild Pipeline State]
     G --> H[Next Frame Renders Updated Shader]
 
-    style A fill:#f9f,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style C fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style D fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style E fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style F fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style G fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style H fill:#9cf,stroke:#333,stroke-width:2px,color:#000
+    classDef warning fill:#3e2e1e,stroke:#f7c87a,stroke-width:2px,color:#f5f5fa;
+    classDef default fill:#303040,stroke:#7aa2f7,stroke-width:2px,color:#f5f5fa;
+    classDef info fill:#1e3244,stroke:#7ac7f7,stroke-width:2px,color:#f5f5fa;
+    classDef success fill:#1e3f2e,stroke:#7af7a2,stroke-width:2px,color:#f5f5fa;
+    classDef danger fill:#3e2028,stroke:#f77a8a,stroke-width:2px,color:#f5f5fa;
+
+    class A warning;
+    class B default;
+    class C info;
+    class D success;
+    class E danger;
+    class F,G info;
+    class H success;
 ```
 
 **C. Live Shader Patching (Advanced)**

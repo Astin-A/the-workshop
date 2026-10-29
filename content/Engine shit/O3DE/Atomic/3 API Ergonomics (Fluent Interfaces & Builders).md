@@ -16,22 +16,26 @@ The API leaks implementation details. `RHI::DrawListTag`, `RHI::PipelineStateDes
 
 ```mermaid
 graph TD
-    A[User Code] --> B[Create Descriptor]
-    B --> C[Populate Vectors]
-    C --> D[Call CreateRenderPipeline]
-    D --> E[Register Views]
-    E --> F[Bind Attachments]
-    F --> G[Bind DrawListTags]
-    G --> H[Finally Renderable]
+    A[Script Canvas Editor] --> B[Create Texture Node: GBuffer]
+    A --> C[Create Texture Node: SceneColor]
+    B -->|Output Texture| D[Render Pass Node: GBufferPass]
+    D -->|Output Texture| E[Render Pass Node: LightingPass]
+    C -->|Input Texture| E
+    E -->|Output Texture| F[Render Pass Node: ToneMapping]
+    F --> G[Compile Graph Node]
+    G --> H[Runtime Render Graph]
 
-    style A fill:#f9f,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style C fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style D fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style E fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style F fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style G fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style H fill:#9cf,stroke:#333,stroke-width:2px,color:#000
+    classDef default fill:#303040,stroke:#7aa2f7,stroke-width:2px,color:#f5f5fa;
+    classDef highlight fill:#341660,stroke:#d8b4fe,stroke-width:2px,color:#f5f5fa;
+    classDef warning fill:#3e2e1e,stroke:#f7c87a,stroke-width:2px,color:#f5f5fa;
+    classDef info fill:#1e3244,stroke:#7ac7f7,stroke-width:2px,color:#f5f5fa;
+    classDef success fill:#1e3f2e,stroke:#7af7a2,stroke-width:2px,color:#f5f5fa;
+
+    class A highlight;
+    class B,C warning;
+    class D,E,F default;
+    class G info;
+    class H success;
 ```
 
 ### The Solution: The Builder Pattern & Fluent Interfaces
@@ -45,11 +49,14 @@ graph LR
     C -->|SetClearColor| D[Build]
     D --> E[RenderPipeline]
 
-    style A fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style C fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style D fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style E fill:#f96,stroke:#333,stroke-width:2px,color:#000
+    classDef default fill:#303040,stroke:#7aa2f7,stroke-width:2px,color:#f5f5fa;
+    classDef info fill:#1e3244,stroke:#7ac7f7,stroke-width:2px,color:#f5f5fa;
+    classDef success fill:#1e3f2e,stroke:#7af7a2,stroke-width:2px,color:#f5f5fa;
+
+    class A default;
+    class B,C info;
+    class D info;
+    class E success;
 ```
 
 ### Before vs. After: The Code Difference
@@ -250,11 +257,16 @@ graph TD
     B -->|Inject| D
     D --> E[Scene]
 
-    style A fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style C fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style D fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style E fill:#f96,stroke:#333,stroke-width:2px,color:#000
+    classDef default fill:#303040,stroke:#7aa2f7,stroke-width:2px,color:#f5f5fa;
+    classDef info fill:#1e3244,stroke:#7ac7f7,stroke-width:2px,color:#f5f5fa;
+    classDef highlight fill:#341660,stroke:#d8b4fe,stroke-width:2px,color:#f5f5fa;
+    classDef success fill:#1e3f2e,stroke:#7af7a2,stroke-width:2px,color:#f5f5fa;
+
+    class A default;
+    class B info;
+    class C highlight;
+    class D highlight;
+    class E success;
 ```
 
 ### Migration Strategy

@@ -19,12 +19,14 @@ graph TD
     C -->|Blocking Asset Load| E[Disk IO / VRAM Upload]
     E --> F[Frame Stutter]
 
-    style A fill:#f9f,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style C fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style D fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style E fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style F fill:#f96,stroke:#333,stroke-width:2px,color:#000
+    classDef warning fill:#3e2e1e,stroke:#f7c87a,stroke-width:2px,color:#f5f5fa;
+    classDef danger fill:#3e2028,stroke:#f77a8a,stroke-width:2px,color:#f5f5fa;
+
+    class A warning;
+    class B,C danger;
+    class D danger;
+    class E warning;
+    class F danger;
 ```
 
 ### The Solution: Dedicated Render Thread & Async Streaming
@@ -41,13 +43,17 @@ graph LR
     G -->|Upload to VRAM| D
     G -->|Notify Ready| A
 
-    style A fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style C fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style D fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style E fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style F fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style G fill:#f96,stroke:#333,stroke-width:2px,color:#000
+    classDef warning fill:#3e2e1e,stroke:#f7c87a,stroke-width:2px,color:#f5f5fa;
+    classDef info fill:#1e3244,stroke:#7ac7f7,stroke-width:2px,color:#f5f5fa;
+    classDef default fill:#303040,stroke:#7aa2f7,stroke-width:2px,color:#f5f5fa;
+    classDef highlight fill:#341660,stroke:#d8b4fe,stroke-width:2px,color:#f5f5fa;
+
+    class A warning;
+    class B info;
+    class C default;
+    class D,E highlight;
+    class F info;
+    class G warning;
 ```
 
 ### Technical Implementation: The Render Thread

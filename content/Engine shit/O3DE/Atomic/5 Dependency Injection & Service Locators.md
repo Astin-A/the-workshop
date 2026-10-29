@@ -16,14 +16,12 @@ graph TD
     C[RenderPipeline] -->|AZ::RPI::RPISystemInterface::Get| B
     D[FeatureProcessor] -->|AZ::Interface<AZ::IConsole>::Get| E[Global Singleton]
     F[Pass] -->|SceneNotificationBus::Broadcast| G[Global EBus]
-    
-    style A fill:#f9f,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style C fill:#f9f,stroke:#333,stroke-width:2px,color:#000
-    style D fill:#f9f,stroke:#333,stroke-width:2px,color:#000
-    style E fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style F fill:#f9f,stroke:#333,stroke-width:2px,color:#000
-    style G fill:#f96,stroke:#333,stroke-width:2px,color:#000
+
+    classDef danger fill:#3e2028,stroke:#f77a8a,stroke-width:2px,color:#f5f5fa;
+    classDef warning fill:#3e2e1e,stroke:#f7c87a,stroke-width:2px,color:#f5f5fa;
+
+    class A,C,D,F warning;
+    class B,E,G danger;
 ```
 
 ### The Solution: Explicit Ownership via DI
@@ -41,13 +39,14 @@ graph LR
     D -->|Creates| E[RenderPipeline]
     D -->|Injected into| E
     E -->|Creates| F[Pass]
-    
-    style A fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style C fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style D fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style E fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style F fill:#9cf,stroke:#333,stroke-width:2px,color:#000
+
+    classDef highlight fill:#341660,stroke:#d8b4fe,stroke-width:2px,color:#f5f5fa;
+    classDef info fill:#1e3244,stroke:#7ac7f7,stroke-width:2px,color:#f5f5fa;
+    classDef success fill:#1e3f2e,stroke:#7af7a2,stroke-width:2px,color:#f5f5fa;
+
+    class A highlight;
+    class B,C,D,E info;
+    class F success;
 ```
 
 ### Technical Implementation: The Code Shift
@@ -224,13 +223,16 @@ graph TD
     E --> F[RenderPipeline]
     F --> G[Test Passes]
 
-    style A fill:#f9f,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style C fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style D fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style E fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style F fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style G fill:#9cf,stroke:#333,stroke-width:2px,color:#000
+    classDef highlight fill:#341660,stroke:#d8b4fe,stroke-width:2px,color:#f5f5fa;
+    classDef info fill:#1e3244,stroke:#7ac7f7,stroke-width:2px,color:#f5f5fa;
+    classDef warning fill:#3e2e1e,stroke:#f7c87a,stroke-width:2px,color:#f5f5fa;
+    classDef success fill:#1e3f2e,stroke:#7af7a2,stroke-width:2px,color:#f5f5fa;
+
+    class A highlight;
+    class B,C,D info;
+    class E warning;
+    class F info;
+    class G success;
 ```
 
 ### Migration Strategy

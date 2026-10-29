@@ -8,7 +8,6 @@ Atom is not a library; it is a subsystem. It operates entirely at the mercy of t
 Look at `examples/Triangle/source/main.cpp`. To draw a single triangle, you must instantiate `AzGameFramework::GameApplication`, which triggers the entire `AzCore` reflection, memory allocation, and settings registry bootstrap. You cannot simply link a `.lib` and start drawing. 
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryTextColor': '#000000', 'textColor': '#000000', 'lineColor': '#333333' }}}%%
 graph TD
     A[Triangle main.cpp] --> B[AzGameFramework::GameApplication]
     B --> C[AzCore ComponentApplication]
@@ -18,13 +17,15 @@ graph TD
     D --> G[Atom RPI Scene]
     G --> H[Atom RHI]
     F -.-> G
-    
-    style A fill:#f9f,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style C fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style F fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style G fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style H fill:#9cf,stroke:#333,stroke-width:2px,color:#000
+
+    classDef default fill:#303040,stroke:#7aa2f7,stroke-width:2px,color:#f5f5fa;
+    classDef danger fill:#3e2028,stroke:#f77a8a,stroke-width:2px,color:#f5f5fa;
+    classDef info fill:#1e3244,stroke:#7ac7f7,stroke-width:2px,color:#f5f5fa;
+    classDef neutral fill:#30303a,stroke:#9a9aa5,stroke-width:2px,color:#f5f5fa;
+
+    class B,C,D,E,F danger;
+    class G,H info;
+    class A neutral;
 ```
 
 *The red boxes represent the Game Engine framework. The blue boxes represent the Renderer. Notice how the Renderer is completely choked by the Game Engine framework.*
@@ -67,19 +68,21 @@ int main() {
 ```
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryTextColor': '#000000', 'textColor': '#000000', 'lineColor': '#333333' }}}%%
 graph LR
     A[User App] --> B[Atom::Renderer]
     B --> C[Atom::Scene]
     B --> D[Atom::RenderPipeline]
     C --> D
     D --> E[Atom RHI - DX12/Vulkan]
-    
-    style A fill:#f9f,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style C fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style D fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style E fill:#9cf,stroke:#333,stroke-width:2px,color:#000
+
+    classDef default fill:#303040,stroke:#7aa2f7,stroke-width:2px,color:#f5f5fa;
+    classDef info fill:#1e3244,stroke:#7ac7f7,stroke-width:2px,color:#f5f5fa;
+    classDef success fill:#1e3f2e,stroke:#7af7a2,stroke-width:2px,color:#f5f5fa;
+    classDef neutral fill:#30303a,stroke:#9a9aa5,stroke-width:2px,color:#f5f5fa;
+
+    class A neutral;
+    class B,C,D info;
+    class E success;
 ```
 
 ---
@@ -88,11 +91,11 @@ graph LR
 
 To achieve this, we have three distinct architectural strategies. We must discuss the trade-offs of each.
 
-| Strategy | Core Philosophy | Technical Impact | Risk Level |
-| :--- | :--- | :--- | :--- |
-| **A: True Decoupling** | Complete severance from `AzCore` and `AzFramework`. | Replaces `AZStd` with `std`. Removes `ComponentApplication`, `Entity`, and `TickBus`. | Extremely High |
-| **B: Hybrid Decoupling** | Sever the Game/Entity layer. Keep `AzCore` for memory, math, and threading. | Removes `GameApplication` and `AZ::Component`. Directly initializes `RPI::Scene`. | Medium |
-| **C: The Facade** | Wrap the existing O3DE architecture in a clean API. | Hides complexity but does not remove it. Performance overhead remains. | Low |
+| Strategy                 | Core Philosophy                                                             | Technical Impact                                                                      | Risk Level     |
+| :----------------------- | :-------------------------------------------------------------------------- | :------------------------------------------------------------------------------------ | :------------- |
+| **A: True Decoupling**   | Complete severance from `AzCore` and `AzFramework`.                         | Replaces `AZStd` with `std`. Removes `ComponentApplication`, `Entity`, and `TickBus`. | Extremely High |
+| **B: Hybrid Decoupling** | Sever the Game/Entity layer. Keep `AzCore` for memory, math, and threading. | Removes `GameApplication` and `AZ::Component`. Directly initializes `RPI::Scene`.     | Medium         |
+| **C: The Facade**        | Wrap the existing O3DE architecture in a clean API.                         | Hides complexity but does not remove it. Performance overhead remains.                | Low            |
 
 #### Strategy A: The "True Decoupling" (The Core Rewrite)
 This is the most radical and difficult approach. We completely sever all ties between `Atom/RPI` and `AzCore` / `AzFramework`.
@@ -208,18 +211,23 @@ while (renderer.IsRunning()) {
 We cannot do this all at once. We need a phased approach. The diagram below outlines the logical sequence of architectural changes required to achieve the Hybrid Decoupling (Strategy B), moving from the outer shell to the core systems.
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryTextColor': '#000000', 'textColor': '#000000', 'lineColor': '#333333' }}}%%
 graph LR
     A[Phase 1: Skeleton] --> B[Phase 2: Window & RHI]
     B --> C[Phase 3: Feature Processors]
     C --> D[Phase 4: Pass System]
     D --> E[Phase 5: Facade]
 
-    style A fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style C fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style D fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style E fill:#9cf,stroke:#333,stroke-width:2px,color:#000
+    classDef default fill:#303040,stroke:#7aa2f7,stroke-width:2px,color:#f5f5fa;
+    classDef info fill:#1e3244,stroke:#7ac7f7,stroke-width:2px,color:#f5f5fa;
+    classDef warning fill:#3e2e1e,stroke:#f7c87a,stroke-width:2px,color:#f5f5fa;
+    classDef success fill:#1e3f2e,stroke:#7af7a2,stroke-width:2px,color:#f5f5fa;
+    classDef highlight fill:#341660,stroke:#d8b4fe,stroke-width:2px,color:#f5f5fa;
+
+    class A default;
+    class B info;
+    class C warning;
+    class D success;
+    class E highlight;
 ```
 
 **Phase 1: Skeleton**

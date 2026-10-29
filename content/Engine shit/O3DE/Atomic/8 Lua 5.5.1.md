@@ -38,13 +38,13 @@ graph TD
         B3 --> B4[More frequent major GCs]
         B4 --> A2
     end
-    
-    style A3 fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style A4 fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style A5 fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style B2 fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style B3 fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style B4 fill:#ff9,stroke:#333,stroke-width:2px,color:#000
+
+    classDef danger fill:#3e2028,stroke:#f77a8a,stroke-width:2px,color:#f5f5fa;
+    classDef warning fill:#3e2e1e,stroke:#f7c87a,stroke-width:2px,color:#f5f5fa;
+
+    class A1,A2 danger;
+    class A3,A4,A5 danger;
+    class B1,B2,B3,B4 warning;
 ```
 
 ### 1.1 Failure Mode A — Atomic Major Collections
@@ -66,6 +66,27 @@ Lua 5.4 stores array parts with alignment padding. Sequential integer-keyed tabl
 ## 2. The Solution: What Lua 5.5.1 Changes
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables': {
+  'primaryColor':'#303040',
+  'primaryTextColor':'#f5f5fa',
+  'primaryBorderColor':'#7aa2f7',
+  'lineColor':'#7aa2f7',
+  'secondaryColor':'#341660',
+  'tertiaryColor':'#1e3f2e',
+  'actorBkg':'#303040',
+  'actorBorder':'#7aa2f7',
+  'actorTextColor':'#f5f5fa',
+  'signalColor':'#7aa2f7',
+  'signalTextColor':'#f5f5fa',
+  'labelBoxBkgColor':'#341660',
+  'labelBoxBorderColor':'#d8b4fe',
+  'labelTextColor':'#f5f5fa',
+  'noteBkgColor':'#3e2028',
+  'noteBorderColor':'#f77a8a',
+  'noteTextColor':'#f5f5fa',
+  'activationBorderColor':'#7aa2f7',
+  'activationBkgColor':'#1e3244'
+}}}%%
 sequenceDiagram
     autonumber
     participant S as Script (per-tick work)
@@ -111,9 +132,12 @@ graph LR
     subgraph "Lua 5.5 — 1 MB logical array"
         A2["██████████████████████████<br/>~100% data &nbsp;·&nbsp; ~0% padding"]
     end
-    
-    style A1 fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style A2 fill:#9cf,stroke:#333,stroke-width:2px,color:#000
+
+    classDef danger fill:#3e2028,stroke:#f77a8a,stroke-width:2px,color:#f5f5fa;
+    classDef success fill:#1e3f2e,stroke:#7af7a2,stroke-width:2px,color:#f5f5fa;
+
+    class A1 danger;
+    class A2 success;
 ```
 
 | | Lua 5.4 | Lua 5.5 | Change |
@@ -166,19 +190,25 @@ graph LR
     SC --> LDebug
     SC --> Auto
     LUAC --> SCanvas
-    
-    style SC fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style LUAC fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style AP fill:#ff9,stroke:#333,stroke-width:2px,color:#000
+
+    classDef default fill:#303040,stroke:#7aa2f7,stroke-width:2px,color:#f5f5fa;
+    classDef warning fill:#3e2e1e,stroke:#f7c87a,stroke-width:2px,color:#f5f5fa;
+    classDef info fill:#1e3244,stroke:#7ac7f7,stroke-width:2px,color:#f5f5fa;
+    classDef highlight fill:#341660,stroke:#d8b4fe,stroke-width:2px,color:#f5f5fa;
+
+    class SC default;
+    class AP,LUAC warning;
+    class SCanvas,GAME info;
+    class LEdit,LDebug,Auto highlight;
 ```
 
-| Surface | Change required |
-|---|---|
-| `AZ::ScriptContext` | Rebuild against 5.5 headers; single audit point |
-| Script Canvas runtime | Regenerate Lua code; precompile with 5.5 |
-| Asset Processor Lua job | Emit 5.5 bytecode; invalidate `.luac` cache on first boot |
-| Lua Editor / Debugger | Rebuild against 5.5 C debug API; add loop-variable mutation warnings |
-| Editor automation | Same vendored runtime — no dual-runtime splits |
+| Surface                 | Change required                                                      |
+| ----------------------- | -------------------------------------------------------------------- |
+| `AZ::ScriptContext`     | Rebuild against 5.5 headers; single audit point                      |
+| Script Canvas runtime   | Regenerate Lua code; precompile with 5.5                             |
+| Asset Processor Lua job | Emit 5.5 bytecode; invalidate `.luac` cache on first boot            |
+| Lua Editor / Debugger   | Rebuild against 5.5 C debug API; add loop-variable mutation warnings |
+| Editor automation       | Same vendored runtime — no dual-runtime splits                       |
 
 ---
 
@@ -203,17 +233,20 @@ graph TD
     A --> A1["Error messages point to correct scope"]
     A --> A2["New scripters see less 'magic' behaviour"]
     A --> A3[luaL_openselectedlibs → sandboxed Editor scripting]
-    
-    style L55 fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style P1 fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style P2 fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style U1 fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style U2 fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style U3 fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style U4 fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style A1 fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style A2 fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style A3 fill:#9cf,stroke:#333,stroke-width:2px,color:#000
+
+    classDef highlight fill:#341660,stroke:#d8b4fe,stroke-width:2px,color:#f5f5fa;
+    classDef default fill:#303040,stroke:#7aa2f7,stroke-width:2px,color:#f5f5fa;
+    classDef success fill:#1e3f2e,stroke:#7af7a2,stroke-width:2px,color:#f5f5fa;
+    classDef warning fill:#3e2e1e,stroke:#f7c87a,stroke-width:2px,color:#f5f5fa;
+    classDef info fill:#1e3244,stroke:#7ac7f7,stroke-width:2px,color:#f5f5fa;
+
+    class L55 highlight;
+    class P default;
+    class P1,P2 info;
+    class U success;
+    class U1,U2,U3,U4 success;
+    class A warning;
+    class A1,A2,A3 warning;
 ```
 
 ### 4.1 Usability Improvements
@@ -262,11 +295,16 @@ graph LR
     P1["Phase 1<br/>Vendor 5.5.1 &<br/>Rebuild ScriptContext"] --> P2["Phase 2<br/>Asset Processor Recompile<br/>& .luac Invalidation"]
     P2 --> P3["Phase 3<br/>GC Tuning via<br/>Settings Registry"]
     P3 --> P4["Phase 4<br/>Sandboxed Lua<br/>for Tooling"]
-    
-    style P1 fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style P2 fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style P3 fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style P4 fill:#9cf,stroke:#333,stroke-width:2px,color:#000
+
+    classDef default fill:#303040,stroke:#7aa2f7,stroke-width:2px,color:#f5f5fa;
+    classDef info fill:#1e3244,stroke:#7ac7f7,stroke-width:2px,color:#f5f5fa;
+    classDef warning fill:#3e2e1e,stroke:#f7c87a,stroke-width:2px,color:#f5f5fa;
+    classDef success fill:#1e3f2e,stroke:#7af7a2,stroke-width:2px,color:#f5f5fa;
+
+    class P1 default;
+    class P2 info;
+    class P3 warning;
+    class P4 success;
 ```
 
 ### Phase 1 — Vendor & Rebuild *(Immediate)*
@@ -299,16 +337,14 @@ graph TB
         R5["Read-only loop variables<br/><i>(low risk · low cost)</i>"]
         R6["Explicit globals semantic change<br/><i>(low risk · low cost)</i>"]
     end
-    
-    style Critical fill:#f96,stroke:#333,stroke-width:2px,color:#000
-    style Contain fill:#ff9,stroke:#333,stroke-width:2px,color:#000
-    style Accept fill:#9cf,stroke:#333,stroke-width:2px,color:#000
-    style R1 fill:#fff,stroke:#333,stroke-width:1px,color:#000
-    style R2 fill:#fff,stroke:#333,stroke-width:1px,color:#000
-    style R3 fill:#fff,stroke:#333,stroke-width:1px,color:#000
-    style R4 fill:#fff,stroke:#333,stroke-width:1px,color:#000
-    style R5 fill:#fff,stroke:#333,stroke-width:1px,color:#000
-    style R6 fill:#fff,stroke:#333,stroke-width:1px,color:#000
+
+    classDef danger fill:#3e2028,stroke:#f77a8a,stroke-width:2px,color:#f5f5fa;
+    classDef warning fill:#3e2e1e,stroke:#f7c87a,stroke-width:2px,color:#f5f5fa;
+    classDef success fill:#1e3f2e,stroke:#7af7a2,stroke-width:2px,color:#f5f5fa;
+
+    class R1,R2 danger;
+    class R3,R4 warning;
+    class R5,R6 success;
 ```
 
 | Risk | Severity | Mitigation |
