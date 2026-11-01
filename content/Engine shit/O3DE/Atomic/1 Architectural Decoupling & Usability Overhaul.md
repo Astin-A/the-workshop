@@ -91,11 +91,37 @@ graph LR
 
 To achieve this, we have three distinct architectural strategies. We must discuss the trade-offs of each.
 
-| Strategy                 | Core Philosophy                                                             | Technical Impact                                                                      | Risk Level     |
-| :----------------------- | :-------------------------------------------------------------------------- | :------------------------------------------------------------------------------------ | :------------- |
-| **A: True Decoupling**   | Complete severance from `AzCore` and `AzFramework`.                         | Replaces `AZStd` with `std`. Removes `ComponentApplication`, `Entity`, and `TickBus`. | Extremely High |
-| **B: Hybrid Decoupling** | Sever the Game/Entity layer. Keep `AzCore` for memory, math, and threading. | Removes `GameApplication` and `AZ::Component`. Directly initializes `RPI::Scene`.     | Medium         |
-| **C: The Facade**        | Wrap the existing O3DE architecture in a clean API.                         | Hides complexity but does not remove it. Performance overhead remains.                | Low            |
+<table>
+  <thead>
+    <tr>
+      <th align="left">Strategy</th>
+      <th align="left">Core Philosophy</th>
+      <th align="left">Technical Impact</th>
+      <th align="left">Risk Level</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="left"><strong>A: True Decoupling</strong></td>
+      <td align="left">Complete severance from <code>AzCore</code> and <code>AzFramework</code>.</td>
+      <td align="left">Replaces <code>AZStd</code> with <code>std</code>. Removes <code>ComponentApplication</code>, <code>Entity</code>, and <code>TickBus</code>.</td>
+      <td align="left">Extremely High</td>
+    </tr>
+    <tr>
+      <td align="left"><strong>B: Hybrid Decoupling</strong></td>
+      <td align="left">Sever the Game/Entity layer. Keep <code>AzCore</code> for memory, math, and threading.</td>
+      <td align="left">Removes <code>GameApplication</code> and <code>AZ::Component</code>. Directly initializes <code>RPI::Scene</code>.</td>
+      <td align="left">Medium</td>
+    </tr>
+    <tr>
+      <td align="left"><strong>C: The Facade</strong></td>
+      <td align="left">Wrap the existing O3DE architecture in a clean API.</td>
+      <td align="left">Hides complexity but does not remove it. Performance overhead remains.</td>
+      <td align="left">Low</td>
+    </tr>
+  </tbody>
+</table>
+
 
 #### Strategy A: The "True Decoupling" (The Core Rewrite)
 This is the most radical and difficult approach. We completely sever all ties between `Atom/RPI` and `AzCore` / `AzFramework`.

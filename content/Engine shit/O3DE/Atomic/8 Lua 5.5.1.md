@@ -8,14 +8,41 @@
 
 O3DE ships Lua 5.4.4. Its garbage collector pauses the whole VM during major collections, and its large-array representation wastes ~40% of memory on padding. Both effects surface as **unpredictable tick-time spikes** in Script Canvas and Lua tooling, and both are fixed structurally in **Lua 5.5.1**. This method is not a language-feature upgrade — it is a **real-time determinism and scripting-usability upgrade**, and it is the cheapest high-leverage item in the optimization pass.
 
-| Attribute | Detail |
-|---|---|
-| **Current runtime** | Lua 5.4.4 (vendored in AzCore) |
-| **Target runtime** | Lua 5.5.1 (released 03 Aug 2026) |
-| **Primary wins** | Deterministic tick time · ~60% smaller large arrays |
-| **Secondary wins** | Sandboxing · better tooling · clearer script semantics |
-| **Effort** | Medium — bounded by `AZ::ScriptContext` chokepoint |
-| **Risk** | Low–Medium — bytecode invalidation, C API audit |
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Detail</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Current runtime</strong></td>
+      <td>Lua 5.4.4 (vendored in AzCore)</td>
+    </tr>
+    <tr>
+      <td><strong>Target runtime</strong></td>
+      <td>Lua 5.5.1 (released 03 Aug 2026)</td>
+    </tr>
+    <tr>
+      <td><strong>Primary wins</strong></td>
+      <td>Deterministic tick time · ~60% smaller large arrays</td>
+    </tr>
+    <tr>
+      <td><strong>Secondary wins</strong></td>
+      <td>Sandboxing · better tooling · clearer script semantics</td>
+    </tr>
+    <tr>
+      <td><strong>Effort</strong></td>
+      <td>Medium — bounded by <code>AZ::ScriptContext</code> chokepoint</td>
+    </tr>
+    <tr>
+      <td><strong>Risk</strong></td>
+      <td>Low–Medium — bytecode invalidation, C API audit</td>
+    </tr>
+  </tbody>
+</table>
+
 
 ---
 
@@ -140,23 +167,73 @@ graph LR
     class A2 success;
 ```
 
-| | Lua 5.4 | Lua 5.5 | Change |
-|---|---|---|---|
-| Array payload | 1 MB logical | 1 MB logical | — |
-| Heap footprint | ~1.67 MB | ~1.00 MB | **−40%** |
-| Large-array waste | ~40% | ~0% | eliminated |
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Lua 5.4</th>
+      <th>Lua 5.5</th>
+      <th>Change</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Array payload</td>
+      <td>1 MB logical</td>
+      <td>1 MB logical</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Heap footprint</td>
+      <td>~1.67 MB</td>
+      <td>~1.00 MB</td>
+      <td><strong>−40%</strong></td>
+    </tr>
+    <tr>
+      <td>Large-array waste</td>
+      <td>~40%</td>
+      <td>~0%</td>
+      <td>eliminated</td>
+    </tr>
+  </tbody>
+</table>
+
 
 Lower heap pressure → fewer GC cycles → fewer opportunities for any pause at all. It is a compounding win.
 
 ### 2.3 Secondary Wins
 
-| Change | Benefit |
-|---|---|
-| `table.create` | Pre-size arrays; avoid reallocation churn during per-tick table building |
-| `luaL_openselectedlibs` | Whitelisted standard libraries — sandboxable script states |
-| Read-only `for`-loop variables | Prevents accidental mutation of loop indices; static-analysis friendly |
-| Explicit global declarations | Opt-in strict mode; clearer intent; better tooling |
-| Debug-interface updates | New debugger surface — see §4 |
+<table>
+  <thead>
+    <tr>
+      <th>Change</th>
+      <th>Benefit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>table.create</code></td>
+      <td>Pre-size arrays; avoid reallocation churn during per-tick table building</td>
+    </tr>
+    <tr>
+      <td><code>luaL_openselectedlibs</code></td>
+      <td>Whitelisted standard libraries — sandboxable script states</td>
+    </tr>
+    <tr>
+      <td>Read-only <code>for</code>-loop variables</td>
+      <td>Prevents accidental mutation of loop indices; static-analysis friendly</td>
+    </tr>
+    <tr>
+      <td>Explicit global declarations</td>
+      <td>Opt-in strict mode; clearer intent; better tooling</td>
+    </tr>
+    <tr>
+      <td>Debug-interface updates</td>
+      <td>New debugger surface — see §4</td>
+    </tr>
+  </tbody>
+</table>
+
 
 ---
 
@@ -202,13 +279,37 @@ graph LR
     class LEdit,LDebug,Auto highlight;
 ```
 
-| Surface                 | Change required                                                      |
-| ----------------------- | -------------------------------------------------------------------- |
-| `AZ::ScriptContext`     | Rebuild against 5.5 headers; single audit point                      |
-| Script Canvas runtime   | Regenerate Lua code; precompile with 5.5                             |
-| Asset Processor Lua job | Emit 5.5 bytecode; invalidate `.luac` cache on first boot            |
-| Lua Editor / Debugger   | Rebuild against 5.5 C debug API; add loop-variable mutation warnings |
-| Editor automation       | Same vendored runtime — no dual-runtime splits                       |
+<table>
+  <thead>
+    <tr>
+      <th>Surface</th>
+      <th>Change required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>AZ::ScriptContext</code></td>
+      <td>Rebuild against 5.5 headers; single audit point</td>
+    </tr>
+    <tr>
+      <td>Script Canvas runtime</td>
+      <td>Regenerate Lua code; precompile with 5.5</td>
+    </tr>
+    <tr>
+      <td>Asset Processor Lua job</td>
+      <td>Emit 5.5 bytecode; invalidate <code>.luac</code> cache on first boot</td>
+    </tr>
+    <tr>
+      <td>Lua Editor / Debugger</td>
+      <td>Rebuild against 5.5 C debug API; add loop-variable mutation warnings</td>
+    </tr>
+    <tr>
+      <td>Editor automation</td>
+      <td>Same vendored runtime — no dual-runtime splits</td>
+    </tr>
+  </tbody>
+</table>
+
 
 ---
 
@@ -347,14 +448,48 @@ graph TB
     class R5,R6 success;
 ```
 
-| Risk | Severity | Mitigation |
-|---|---|---|
-| **5.4 bytecode incompatible with 5.5 VM** | 🔴 High | Asset Processor invalidates `.luac` cache; `.lua` source always recompiled |
-| **Dual Lua runtimes in tools** | 🔴 High | Audit every target linking Lua; vendored 5.5.1 is the single source for AzCore, Asset Processor, Editor |
-| **C API breaking changes** | 🟡 Medium | Phase 1 surfaces at compile time; `ScriptContext` is the single chokepoint |
-| **Script Canvas generated code relies on 5.4 semantics** | 🟡 Medium | Regenerate with 5.5 compiler; generated code is machine-emitted and auditable |
-| **`for` loop variables become read-only** | 🟢 Low | Lua Editor static analysis flags assignments to loop variables |
-| **Explicit global declarations** | 🟢 Low | Compatibility mode preserves existing scripts; new scripts may opt into strict |
+<table>
+  <thead>
+    <tr>
+      <th>Risk</th>
+      <th>Severity</th>
+      <th>Mitigation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>5.4 bytecode incompatible with 5.5 VM</strong></td>
+      <td>🔴 High</td>
+      <td>Asset Processor invalidates <code>.luac</code> cache; <code>.lua</code> source always recompiled</td>
+    </tr>
+    <tr>
+      <td><strong>Dual Lua runtimes in tools</strong></td>
+      <td>🔴 High</td>
+      <td>Audit every target linking Lua; vendored 5.5.1 is the single source for AzCore, Asset Processor, Editor</td>
+    </tr>
+    <tr>
+      <td><strong>C API breaking changes</strong></td>
+      <td>🟡 Medium</td>
+      <td>Phase 1 surfaces at compile time; <code>ScriptContext</code> is the single chokepoint</td>
+    </tr>
+    <tr>
+      <td><strong>Script Canvas generated code relies on 5.4 semantics</strong></td>
+      <td>🟡 Medium</td>
+      <td>Regenerate with 5.5 compiler; generated code is machine-emitted and auditable</td>
+    </tr>
+    <tr>
+      <td><strong><code>for</code> loop variables become read-only</strong></td>
+      <td>🟢 Low</td>
+      <td>Lua Editor static analysis flags assignments to loop variables</td>
+    </tr>
+    <tr>
+      <td><strong>Explicit global declarations</strong></td>
+      <td>🟢 Low</td>
+      <td>Compatibility mode preserves existing scripts; new scripts may opt into strict</td>
+    </tr>
+  </tbody>
+</table>
+
 
 ---
 
