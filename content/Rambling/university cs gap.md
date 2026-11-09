@@ -1,3 +1,5 @@
+
+
 # Why a CS Degree Isn't Enough Anymore
 
 > [!abstract] TL;DR
@@ -68,6 +70,16 @@ If you want your resume to stop a senior engineer in their tracks, delete the fi
 
 Do that and you're not competing with people who prompt-engineered a weekend web app anymore. You walk into interviews able to talk about socket buffers, race conditions, and memory allocation like someone who's already been doing the job for years.
 
+## The teaching problem
+
+Your professors are not hired to teach you. They're hired to bring in grants, publish papers, and not embarrass the department. Teaching is the thing they do between the actual job and the committee meetings, and a world-class researcher can be a genuinely terrible teacher with zero consequences to their career. Nobody trained them. There's no pedagogy class in a CS PhD. There's no feedback loop on whether their lecture actually transferred knowledge. The lecture is a performance, and the performance is optimized for the professor's convenience, not your understanding. If the room is confused, the room is wrong.
+
+So think about where you actually learned anything. Not in the lecture hall. At 2 a.m., with a textbook open, a video at 1.75x, and a program that doesn't work, changing one line at a time until it does. That's not a failure of the system. That's the system. The lecture was never where the knowledge entered your brain.
+
+Which means college is mostly regulated self-learning. The regulation is real, and it does real work. A syllabus, a deadline, a proctor, a grade, and a peer group that's also panicking at 2 a.m. It forces you to actually sit down and do the thing instead of intending to. But the learning is something you do alone, in a chair, with the material, and nobody can do it for you. You are paying tens of thousands of dollars for a schedule and a piece of paper, and the actual education is outsourced to you.
+
+So do more of it on purpose. Pick a problem nobody assigned you. Read a paper you don't understand and chase the references until you do. Reproduce a result. Build something nobody grades. Break a program and figure out why. That's independent research, and it doesn't come with a rubric. It comes with a question you can't stop thinking about. The students who figure this out spend four years running their own experiments and shipping real things. The students who don't spend four years waiting for a lecture to teach them something, and then graduation feels like a cliff.
+
 ## So what do you actually do
 
 Stop optimizing your schedule for an easy 4.0. Nobody at a tech company is going to ask what you got in your easy elective. Take the brutal upper-level systems courses everyone else avoids: operating systems, compilers, computer networks, database internals. The ones where you lose sleep writing a virtual memory page table manager, an instruction parser, or a B+ tree storage engine. Those build the mental model an AI can't replace.
@@ -78,9 +90,3 @@ The degree keeps getting framed as the achievement. It isn't. It's the access. T
 
 A CS degree is not a golden ticket anymore. It's a gym membership. Pay tuition, copy-paste your way through the tests, abuse ChatGPT for four years, and you graduate with a piece of paper and zero leverage. But if you use those four years to learn your tools, take the hardest systems classes in the catalog, get internships at top companies, and build real infrastructure from the ground up, there has never been an easier time to lap the entire field.
 
-> [!summary]
-> - Making the unit tests pass is a different skill from building systems, and it's the one being automated.
-> - Big O is not the machine. Cache lines and memory hierarchy are the machine, and the chalkboard has never run a program.
-> - The tooling gap is real enough that MIT had to build a class for it.
-> - Tutorial clones are invisible. One infrastructure project built from scratch is not.
-> - The degree is a gym membership. The work is the muscle. Use the four years and there has never been an easier time to lap the field.
